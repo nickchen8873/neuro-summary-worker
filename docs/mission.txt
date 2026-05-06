@@ -1,0 +1,12 @@
+我目前已經完成了一個 Node.js 的 AI Agent 最小可行性產品（MVP），核心邏輯在 `index.js` 中。目前能夠成功抓取腦科學 RSS、組裝 Prompt，並透過 `@google/generative-ai` 套件成功呼叫 Gemini API 輸出摘要。
+
+接下來，我們要準備將它放上 GitHub Actions 跑排程。請協助我進行以下兩階段任務：
+
+任務一：架構重構（Refactoring）
+- 請不要改變現有功能，但幫我把單一的 `index.js` 拆分成模組化的結構。建議至少分離出：RSS 抓取模組、Gemini API 呼叫模組。
+
+任務二：GitHub Actions 部署準備
+- 提供一份對應的 `.github/workflows/agent-schedule.yml`，設定為每天早上 8 點（UTC+8）自動執行一次。
+- 告訴我這個排程要在 GitHub Repo 的 Secrets 中設定哪些變數（例如 GEMINI_API_KEY）才能順利運行。
+
+請先給出任務一的重構程式碼，確認本地可以正常運行後，我們再進行任務二。
