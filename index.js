@@ -3,7 +3,7 @@ require('dotenv').config();
 const { fetchTopArticles } = require('./src/rssFetcher');
 const { createGeminiClient } = require('./src/geminiClient');
 const { sendTelegramMessage, escapeHtml } = require('./src/telegramNotifier');
-const { saveArchive, getDateString } = require('./src/archiver');
+const { saveArchive, getDateString, loadSeenLinks } = require('./src/archiver');
 
 const FEED_URL = 'https://neurosciencenews.com/neuroscience-terms/neuroscience/feed/';
 const ARTICLE_COUNT = 3;
@@ -67,7 +67,9 @@ async function notifyError(error) {
 async function runNeuroAgent() {
     try {
         console.log('[步驟 1/4] 正在抓取最新腦科學文章...');
-        const topArticles = await fetchTopArticles(FEED_URL, ARTICLE_COUNT);
+        const seenLinks = loadSeenLinks();
+        console.log(`[狀態] 已載入 ${seenLinks.size} 筆歷史存檔連結，將跳過重複文章。`);
+        const topArticles = await fetchTopArticles(FEED_URL, ARTICLE_COUNT, seenLinks);
         console.log(`[狀態] 成功取得 ${topArticles.length} 篇文章。`);
 
         const promptContent = buildPrompt(topArticles);

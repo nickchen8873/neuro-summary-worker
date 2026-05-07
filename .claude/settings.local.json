@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Project\\\\neuro-rss-fetch\" | Where-Object { $_.Name -ne \"node_modules\" } | Format-Table Name, Mode -AutoSize)",
+      "Bash(node -c index.js)",
+      "Bash(node -c src/archiver.js)",
+      "Bash(node -c src/rssFetcher.js)"
+    ]
+  }
+}

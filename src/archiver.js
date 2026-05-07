@@ -52,4 +52,21 @@ function saveArchive(articles, summaryText) {
     return filePath;
 }
 
-module.exports = { saveArchive, getDateString };
+function loadSeenLinks() {
+    const seen = new Set();
+    if (!fs.existsSync(ARCHIVE_DIR)) return seen;
+
+    const files = fs.readdirSync(ARCHIVE_DIR).filter(f => f.endsWith('.md'));
+    const linkPattern = /\[原文連結\]\((https?:\/\/[^\s)]+)\)/g;
+
+    for (const file of files) {
+        const content = fs.readFileSync(path.join(ARCHIVE_DIR, file), 'utf8');
+        let match;
+        while ((match = linkPattern.exec(content)) !== null) {
+            seen.add(match[1]);
+        }
+    }
+    return seen;
+}
+
+module.exports = { saveArchive, getDateString, loadSeenLinks };
